@@ -3,10 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/images/weather-logo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        referrerpolicy="no-referrer" rel="stylesheet" />
+
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./src/style.css">
+
     <title>Weather App</title>
   </head>
   <body>
-    <div id="app"></div>
+      <main class="text-center wrapper-md"></main>
+        <div class="fade-down container">
+
+            <!-- Entête du site -->
+            <header>
+                <h1 class="fw-bold">
+                    Météo Simple
+                </h1>
+                <p>
+                    Seulement et simplement la météo    
+                </p>
+            </header>
+
+            <section class="search-bar">
+                <label class="magnifying-glass p-2" for="search-bar-input">
+                    <i class="fa-solid fa-magnifying-glass fs-4"></i>
+                </label>
+                <input autofocus class="form-control mb-3 px-5 py-3 w-100" id="search-bar-input"
+                    placeholder="Enter a city name" type="text">
+                <i class="x fa-solid fa-x fs-4 p-2" role="button"></i>
+            </section>
+
+            <section>
+                <div class="alert alert-danger d-flex align-items-center justify-content-between gap-2 text-start">
+                    <span>Error message!</span>
+                    <i class="fa-solid fa-triangle-exclamation fs-4"></i>
+                </div>
+            </section>
+
+            <section>
+                <div class="alert alert-info d-flex align-items-center justify-content-between gap-2 text-start">
+                    <span>Loading...</span>
+                    <img alt="Loader" class="loader" src="/images/loader.gif">
+                </div>
+            </section>
+
+            <section>
+                <div class="accordion mb-3" data-accordion="">
+                    
+                </div>
+
+                    <!-- Élément #2 -->
+                <div class="accordion-item"></div>
+            </section>
+        </div>
+
+        <footer class="pb-1">
+            <small>
+                © Copyright Template 2024 Hello
+            </small>
+        </footer>
+    </main>
     <script type="module" src="/src/app.ts"></script>
   </body>
 </html>
