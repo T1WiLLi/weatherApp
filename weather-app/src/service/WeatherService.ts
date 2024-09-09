@@ -9,17 +9,12 @@ export default class WeatherService {
         const url = `${this.baseForecastApiUrl}?latitude=${latitude}&longitude=${longitude}&forecast_days=8&timezone=auto&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,weathercode,sunrise,sunset,windspeed_10m_max,winddirection_10m_dominant&hourly=precipitation_probability`;
         try {
             const response = await fetch(url);
-            console.log('Forecast Response:', response);
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Forecast Error:', errorText);
                 throw new Error(`Failed to fetch forecast data: ${response.status} ${response.statusText}`);
             }
             const data = await response.json();
-            console.log('Received forecast data:', JSON.stringify(data, null, 2));
             return this.deserializeForecast(data);
         } catch (error) {
-            console.error('Fetch forecast error:', error);
             throw error;
         }
     }
@@ -28,22 +23,18 @@ export default class WeatherService {
         const url = `${this.baseLocationApiUrl}?name=${query}&count=10&language=fr`;
         try {
             const response = await fetch(url);
-            console.log('Response:', response);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data: CitiesReponse = await response.json();
-            console.log('Data:', data);
             return this.deserializeCities(data);
         } catch (error) {
-            console.error('Fetch error:', error);
             throw error;
         }
     }
 
     private deserializeCities(data: CitiesReponse): City[] {
         if (!data.results || !Array.isArray(data.results)) {
-            console.error('Unexpected data structure:', data);
             return [];
         }
 
