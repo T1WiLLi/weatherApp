@@ -8,6 +8,12 @@ export interface Forecast {
     elevation: number;
     daily_units: Dailyunits;
     daily: Daily;
+    hourly: Hourly;
+}
+
+export interface Hourly {
+    time: string[];
+    precipitation_probability: number[];
 }
 
 export interface Daily {
@@ -21,7 +27,6 @@ export interface Daily {
     sunset: string[];
     windspeed_10m_max: number[];
     winddirection_10m_dominant: number[];
-    precipitation_probability: number[];
 }
 
 export interface Dailyunits {

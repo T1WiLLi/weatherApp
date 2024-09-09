@@ -36,30 +36,19 @@
                 </label>
                 <input autofocus class="form-control mb-3 px-5 py-3 w-100" id="search-bar-input"
                     placeholder="Enter a city name" type="text">
-                <i class="x fa-solid fa-x fs-4 p-2" role="button"></i>
+                 <i id="clear-search" class="x fa-solid fa-x fs-4 p-2" role="button"></i>
             </section>
 
-            <section>
-                <div class="alert alert-danger d-flex align-items-center justify-content-between gap-2 text-start">
-                    <span>Error message!</span>
-                    <i class="fa-solid fa-triangle-exclamation fs-4"></i>
-                </div>
+            <section data-loading>
+                
             </section>
 
-            <section>
-                <div class="alert alert-info d-flex align-items-center justify-content-between gap-2 text-start">
-                    <span>Loading...</span>
-                    <img alt="Loader" class="loader" src="/images/loader.gif">
-                </div>
+            <section data-error>
+
             </section>
 
-            <section>
-                <div class="accordion mb-3" data-accordion="">
-                    
-                </div>
+            <section data-accordion-grid>
 
-                    <!-- Élément #2 -->
-                <div class="accordion-item"></div>
             </section>
         </div>
 

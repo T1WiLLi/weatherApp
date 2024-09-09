@@ -1,5 +1,5 @@
 export interface CitiesReponse {
-    cities: City[];
+    results: City[];
     generationtime_ms: number;
 }
 
