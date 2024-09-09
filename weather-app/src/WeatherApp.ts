@@ -2,11 +2,17 @@ import accordionItem from "./components/Accordion";
 import WeatherService from "./service/WeatherService";
 import { UIManager } from "./UIManager";
 
+type CachedData = {
+    resultHTML: string;
+    timestamp: number;
+}
+
 export class WeatherApp {
     private weatherService: WeatherService;
     private uiManager: UIManager;
-    private cache: Map<string, string>;
+    private cache: Map<string, CachedData>;
     private debounceTimer: number | null;
+    private cacheExpiryTime: number = 3600000;
 
     constructor(uiManager: UIManager) {
         this.weatherService = new WeatherService();
@@ -30,14 +36,21 @@ export class WeatherApp {
     private loadCacheFromLocalStorage(): void {
         const cachedData = localStorage.getItem('weatherAppCache');
         if (cachedData) {
-            const parsedCache = JSON.parse(cachedData) as { [key: string]: string };
-            this.cache = new Map(Object.entries(parsedCache));
+            const parsedCache = JSON.parse(cachedData) as { [key: string]: CachedData };
+            Object.entries(parsedCache).forEach(([query, data]) => {
+                this.cache.set(query, data);
+            });
         }
     }
 
     private saveCacheToLocalStorage(): void {
-        const cacheObject = Object.fromEntries(this.cache);  // Convert Map to object
+        const cacheObject = Object.fromEntries(this.cache);
         localStorage.setItem('weatherAppCache', JSON.stringify(cacheObject));
+    }
+
+    private isCacheExpired(timestamp: number): boolean {
+        const currentTime = Date.now();
+        return currentTime - timestamp > this.cacheExpiryTime;
     }
 
     private async handleSearch(query: string) {
@@ -50,8 +63,13 @@ export class WeatherApp {
 
         if (this.cache.has(trimmedQuery)) {
             const cachedData = this.cache.get(trimmedQuery)!;
-            this.uiManager.updateAccordionSection(cachedData);
-            return;
+            if (!this.isCacheExpired(cachedData.timestamp)) {
+                this.uiManager.updateAccordionSection(cachedData.resultHTML);
+                return;
+            } else {
+                this.cache.delete(trimmedQuery);
+                this.saveCacheToLocalStorage();
+            }
         }
 
         this.uiManager.showLoading();
@@ -67,8 +85,14 @@ export class WeatherApp {
                 const accordionItems = await Promise.all(forecastPromises);
                 const resultHTML = accordionItems.join('');
 
-                this.cache.set(trimmedQuery, resultHTML);
+                const cachedData: CachedData = {
+                    resultHTML: resultHTML,
+                    timestamp: Date.now()
+                };
+
+                this.cache.set(trimmedQuery, cachedData);
                 this.saveCacheToLocalStorage();
+
                 this.uiManager.updateAccordionSection(resultHTML);
             } else {
                 this.uiManager.showError("No cities found.");

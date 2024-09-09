@@ -1,3 +1,4 @@
+import { getDayOfWeek } from "../helper/DateTimeHelper";
 import WeatherCode from "../service/WeatherCode";
 import { Forecast } from "../types/DailyForceast";
 
@@ -6,8 +7,8 @@ export default function forecastItem(id: number, forecast: Forecast): string {
         <div class="rounded-2 p-3 shadow border border-1 border-dark">
             <div class="row flex-wrap">
                 <div class="col mt-2">
-                    <h5 class="fs-6 fw-bold mb-0">Today</h5>
-                    <div class="mb-3"><small>10/27</small></div>
+                    <h5 class="fs-6 fw-bold mb-0">${getDayOfWeek(forecast.daily.time[id])}</h5>
+                    <div class="mb-3"><small>${forecast.daily.time[id]}</small></div>
                     <img class="weather-detail-icon"
                         src="${WeatherCode.getImageForCode(forecast.daily.weathercode[id])}"
                         alt="${WeatherCode.getDescriptionForCode(forecast.daily.weathercode[id])}">
