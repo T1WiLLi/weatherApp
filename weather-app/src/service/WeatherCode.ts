@@ -62,7 +62,7 @@ export default class WeatherCode {
     };
 
     public static getImageForCode(code: number): string {
-        return `/images/${this.imageMap[code] || 'day.svg'}`;
+        return `./images/${this.imageMap[code] || 'day.svg'}`;
     }
 
     public static getDescriptionForCode(code: number): string {
